@@ -6,7 +6,7 @@ provider "aws" {
   access_key = var.ACCESS_KEY
   secret_key = var.SECRET_KEY
   region     = var.regions[0]
-  
+
 }
 
 ##################################################################################
@@ -80,7 +80,7 @@ resource "aws_security_group" "nginx_sg" {
 # INSTANCES #
 resource "aws_instance" "nginx1" {
   ami                    = nonsensitive(data.aws_ssm_parameter.amzn2_linux.value)
-  instance_type          = var.instance_size[2]
+  instance_type          = var.instance_size.small
   subnet_id              = aws_subnet.public_subnet1.id
   vpc_security_group_ids = [aws_security_group.nginx_sg.id]
 
@@ -95,6 +95,6 @@ EOF
 }
 output "aws_region" {
   value = var.regions
-  
+
 }
 
