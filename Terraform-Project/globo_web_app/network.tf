@@ -13,6 +13,11 @@ provider "aws" {
 # DATA
 ##################################################################################
 
+data "aws_availability_zones" "available" {
+  state = "available"
+}
+
+
 data "aws_ssm_parameter" "amzn2_linux" {
   name = "/aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2"
 }
@@ -37,6 +42,7 @@ resource "aws_subnet" "public_subnet1" {
   cidr_block              = var.cidr_block[0]
   vpc_id                  = aws_vpc.app.id
   map_public_ip_on_launch = true
+  availability_zone = data.aws_availability_zones.available.names
 }
 
 # ROUTING #
